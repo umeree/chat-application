@@ -11,7 +11,7 @@ import {
 } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const [err, setErr] = useState(false);
@@ -80,8 +80,11 @@ const Register = () => {
             <span>Add an avatar</span>
           </label>
           <button>Sign up</button>
+          {err && <span>Something went wrong</span>}
         </form>
-        <p>You have account? Login </p>
+        <p>
+          You have account? <Link to="/login">login</Link>{" "}
+        </p>
       </div>
     </div>
   );

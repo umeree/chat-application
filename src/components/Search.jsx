@@ -48,8 +48,9 @@ const Search = () => {
       const res = await getDoc(doc(db, "chats", combinedId));
 
       if (!res.exists()) {
-        await setDoc(doc, (db, "chats", combinedId), { messages: [] });
-        await updateDoc(doc(db, "userChats", currentUser.uid), {
+        await setDoc(doc(db, "chats", combinedId), { messages: [] });
+
+        await updateDoc(doc(db, "usersChat", currentUser.uid), {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
             displayName: user.displayName,
@@ -58,7 +59,7 @@ const Search = () => {
           [combinedId + ".date"]: serverTimestamp(),
         });
 
-        await updateDoc(doc(db, "userChats", user.uid), {
+        await updateDoc(doc(db, "usersChat", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
             displayName: currentUser.displayName,
@@ -67,7 +68,9 @@ const Search = () => {
           [combinedId + ".date"]: serverTimestamp(),
         });
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="search">
@@ -81,7 +84,7 @@ const Search = () => {
       </div>
       {err & <span>User not found</span>}
       {user && (
-        <div className="userChat" onClick={handleSelect}>
+        <div className="userChat" onClick={() => handleSelect()}>
           <img src={user.photoURL} alt="" />
           <div className="userChatInfo">
             <span>{user.displayName}</span>

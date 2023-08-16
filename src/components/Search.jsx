@@ -71,6 +71,8 @@ const Search = () => {
     } catch (err) {
       console.log(err);
     }
+    setUser(null);
+    setUserName("");
   };
   return (
     <div className="search">
@@ -80,9 +82,10 @@ const Search = () => {
           placeholder="Find a user"
           onKeyDown={handleKey}
           onChange={(e) => setUserName(e.target.value)}
+          value={userName}
         />
       </div>
-      {err & <span>User not found</span>}
+      {err && <span>User not found</span>}
       {user && (
         <div className="userChat" onClick={() => handleSelect()}>
           <img src={user.photoURL} alt="" />

@@ -13,6 +13,8 @@ const Message = ({ message }) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
+  const formattedDate = new Date(message.date).toLocaleString();
+
   return (
     <div
       ref={ref}

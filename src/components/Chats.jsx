@@ -9,10 +9,28 @@ const Chats = () => {
   const { currentUser } = useContext(AuthContext);
   const { dispatch } = useContext(ChatContext);
 
+  // useEffect(() => {
+  //   const getChats = () => {
+  //     const unsub = onSnapshot(doc(db, "usersChat", currentUser.uid), (doc) => {
+  //       setChats(doc.data());
+  //     });
+  //     return () => {
+  //       unsub();
+  //     };
+  //   };
+  //   currentUser.uid && getChats();
+  // }, [currentUser.uid]);
+  // console.log(Object.entries(chats));
+
   useEffect(() => {
     const getChats = () => {
-      const unsub = onSnapshot(doc(db, "usersChat", currentUser.uid), (doc) => {
-        setChats(doc.data());
+      const docRef = doc(db, "usersChat", currentUser.uid);
+      const unsub = onSnapshot(docRef, (snapshot) => {
+        if (snapshot.exists()) {
+          setChats(snapshot.data());
+        } else {
+          setChats([]); // or handle empty case as needed
+        }
       });
       return () => {
         unsub();
@@ -20,7 +38,6 @@ const Chats = () => {
     };
     currentUser.uid && getChats();
   }, [currentUser.uid]);
-  // console.log(Object.entries(chats));
 
   const handleSelect = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });

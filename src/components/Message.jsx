@@ -18,12 +18,12 @@ const Message = ({ message }) => {
   return (
     <div
       ref={ref}
-      className={`message ${message.sendeId === currentUser.uid && "owner"}`}
+      className={`message ${message.senderId === currentUser.uid && "owner"} `}
     >
       <div className="messageInfo">
         <img
           src={
-            message.sendeId === currentUser.uid
+            message.senderId === currentUser.uid
               ? currentUser.photoURL
               : data.user.photoURL
           }
